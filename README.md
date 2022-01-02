@@ -1,4 +1,14 @@
-CASTR Version 2
+# CASTR Version 2
 
-*Todo
-- Make action for submitting a search
+## Todo
+- Use Redis to store all card data from queries.
+- Style app for Mobile First. 
+
+## tech used 
+- React
+- Redux
+- Axios
+- REST API
+- WebPack
+- NPM
+- MongoDB

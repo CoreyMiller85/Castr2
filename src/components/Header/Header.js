@@ -1,51 +1,60 @@
-import React from "react";
-import SearchInput from "../SearchInput/SearchInput";
-import SubmitButton from "../SubmitButton/SubmitButton";
-import { useSelector } from "react-redux";
-import { selectSearchValue } from "../SearchInput/searchInputSlice";
-import axios from "axios";
-import FilterContainer from "../FilterContainer/FilterContainer";
-import { setCardData } from "../CardContainer/CardContainerSlice";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import SearchContainer from '../SearchContainer/SearchContainer';
+import SearchInput from '../SearchInput/SearchInput';
+import SubmitButton from '../SubmitButton/SubmitButton';
+import { useSelector } from 'react-redux';
+import { selectSearchValue } from '../SearchInput/searchInputSlice';
+import axios from 'axios';
+import { setCardData } from '../CardContainer/CardContainerSlice';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import Logo from '../Logo/Logo';
+
 const styles = {
-	header: {
-		display: "flex",
-		justifyContent: "space-between",
-		height: "70px",
-		background: "beige",
-	},
-	logo: {},
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    height: '70px',
+    background: 'beige',
+  },
+  logo: {},
 };
 
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #333;
+  color: white;
+  height: 70px;
+  @media (min-width: 768px) {
+    background-color: red;
+  }
+`;
+
 const Header = () => {
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-	const searchValue = useSelector(selectSearchValue);
+  const searchValue = useSelector(selectSearchValue);
 
-	const fetchCards = async (query) => {
-		let results = await axios.get(
-			`http://localhost:3002/api/cards/test?name=${query}`
-		);
-		dispatch(setCardData(results.data.docs));
-	};
+  const fetchCards = async (query) => {
+    let results = await axios.get(
+      `http://localhost:3002/api/cards/test?name=${query}`
+    );
+    dispatch(setCardData(results.data.docs));
+  };
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		fetchCards(searchValue);
-	};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchCards(searchValue);
+  };
 
-	return (
-		<div className="header" style={styles.header}>
-			<h1>CASTR</h1>
-			<form onSubmit={(e) => handleSubmit(e)}>
-				<SearchInput />
-				<SubmitButton handleSubmit={handleSubmit} />
-			</form>
-			<FilterContainer />
-			<div>Filters</div>
-			<div>Hamburger menu</div>
-		</div>
-	);
+  return (
+    <HeaderContainer>
+      <Logo />
+      <SearchContainer />
+    </HeaderContainer>
+  );
 };
 
 export default Header;

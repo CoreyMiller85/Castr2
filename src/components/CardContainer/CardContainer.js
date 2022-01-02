@@ -40,11 +40,6 @@ const CardContainer = () => {
 				}
 			});
 			dispatch(setFilteredCards(newArray));
-			// const newCards = cards.filter((c) => {
-			// 	const colorArray = [...c.colors];
-			// 	const cardColorString = colorArray.sort().join("");
-			// 	console.log(cardColorString);
-			// });
 		} else {
 			return cards;
 		}
