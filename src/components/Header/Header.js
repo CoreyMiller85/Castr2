@@ -24,11 +24,10 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #333;
+  background: #555;
   color: white;
-  height: 70px;
+  height: 80px;
   @media (min-width: 768px) {
-    background-color: red;
   }
 `;
 
