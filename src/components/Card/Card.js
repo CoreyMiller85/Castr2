@@ -14,9 +14,9 @@ const StyledImg = styled.img`
   }
 `;
 
-const Card = ({ imageSrc, key, data }) => {
+const Card = ({ imageSrc, data, getCardById }) => {
   return (
-    <StyledCard key={key} className='card' onClick={() => console.log(data.id)}>
+    <StyledCard className='card' onClick={() => getCardById(data.id)}>
       <StyledImg src={imageSrc} alt='' />
     </StyledCard>
   );

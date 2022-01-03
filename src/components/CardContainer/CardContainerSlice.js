@@ -1,19 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const cardsSlice = createSlice({
-	name: "cards",
-	initialState: {
-		value: [],
-		filteredCards: [],
-	},
-	reducers: {
-		setCardData: (state, action) => {
-			state.value = action.payload;
-		},
-		setFilteredCards: (state, action) => {
-			state.filteredCards = action.payload;
-		},
-	},
+  name: 'cards',
+  initialState: {
+    value: [],
+    filteredCards: [],
+  },
+  reducers: {
+    setCardData: (state, action) => {
+      state.value = action.payload;
+    },
+    setFilteredCards: (state, action) => {
+      state.filteredCards = action.payload;
+    },
+  },
 });
 
 // The function below is called a thunk and allows us to perform async logic. It

@@ -42,6 +42,12 @@ const CardContainer = () => {
     dispatch(setCardData(results.data.docs));
   };
 
+  const getCardById = async (id) => {
+    axios
+      .get(`http://localhost:3002/api/cards/singlecard/${id}`)
+      .then((res) => console.log(res.data));
+  };
+
   const compareColors = (filters, cardColors) => {
     return filters.every((filter) => cardColors.includes(filter));
   };
@@ -61,6 +67,7 @@ const CardContainer = () => {
   };
 
   let cardsList;
+
   if (cards.length > 0) {
     cardsList = cards.map((card) => {
       if (card.card_faces.length > 0) {
@@ -70,11 +77,17 @@ const CardContainer = () => {
             key={card.id}
             imageSrc={card.card_faces[0].image_uris.normal}
             data={card}
+            getCardById={getCardById}
           />
         );
       } else {
         return (
-          <Card key={card.id} imageSrc={card.image_uris.normal} data={card} />
+          <Card
+            key={card.id}
+            imageSrc={card.image_uris.normal}
+            data={card}
+            getCardById={getCardById}
+          />
         );
       }
     });
@@ -86,10 +99,20 @@ const CardContainer = () => {
     if (card.card_faces.length > 0) {
       // SHOWS FRONT OF CARD IF DOUBLE SIDED
       return (
-        <Card key={card.id} imageSrc={card.card_faces[0].image_uris.normal} />
+        <Card
+          key={card.id}
+          getCardById={getCardById}
+          imageSrc={card.card_faces[0].image_uris.normal}
+        />
       );
     } else {
-      return <Card key={card.id} imageSrc={card.image_uris.normal} />;
+      return (
+        <Card
+          key={card.id}
+          getCardById={getCardById}
+          imageSrc={card.image_uris.normal}
+        />
+      );
     }
   });
 
