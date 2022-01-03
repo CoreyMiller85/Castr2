@@ -5,11 +5,14 @@ import {
   selectCards,
   selectFilteredCards,
   setFilteredCards,
+  selectSingleCardData,
+  setSingleCardData,
 } from './CardContainerSlice';
 import { selectColorFilters } from '../FilterContainer/FilterContainerSlice';
 import Card from '../Card/Card';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 
 const StyledCardContainer = styled.div`
   background: linear-gradient(to bottom, #333, #555);
@@ -29,6 +32,8 @@ const CardContainer = () => {
   const cards = useSelector(selectCards);
   const colorFilter = useSelector(selectColorFilters);
   const filteredCards = useSelector(selectFilteredCards);
+  const singleCardData = useSelector(selectSingleCardData);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,7 +50,8 @@ const CardContainer = () => {
   const getCardById = async (id) => {
     axios
       .get(`http://localhost:3002/api/cards/singlecard/${id}`)
-      .then((res) => console.log(res.data));
+      .then((response) => dispatch(setSingleCardData(response.data)));
+    navigate(`/singleCard`);
   };
 
   const compareColors = (filters, cardColors) => {

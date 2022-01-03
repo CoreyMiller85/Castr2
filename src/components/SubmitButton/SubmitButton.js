@@ -15,10 +15,10 @@ const StyledImage = styled.img`
   object-fit: cover;
 `;
 
-const SubmitButton = () => {
+const SubmitButton = ({ handleSubmit }) => {
   return (
     <>
-      <StyledButton type='submit'>
+      <StyledButton type='submit' onSubmit={(e) => handleSubmit(e)}>
         <StyledImage src={SearchImg} alt='Magnifying Glass' />
       </StyledButton>
     </>

@@ -11,7 +11,7 @@ const SearchContainer = ({ handleSubmit }) => {
   return (
     <StyledForm onSubmit={(e) => handleSubmit(e)}>
       <SearchInput />
-      <SubmitButton />
+      <SubmitButton handleSubmit={handleSubmit} />
     </StyledForm>
   );
 };
