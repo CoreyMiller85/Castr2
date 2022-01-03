@@ -1,7 +1,5 @@
 import React from 'react';
 import SearchContainer from '../SearchContainer/SearchContainer';
-import SearchInput from '../SearchInput/SearchInput';
-import SubmitButton from '../SubmitButton/SubmitButton';
 import { useSelector } from 'react-redux';
 import { selectSearchValue } from '../SearchInput/searchInputSlice';
 import axios from 'axios';
@@ -9,6 +7,7 @@ import { setCardData } from '../CardContainer/CardContainerSlice';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Logo from '../Logo/Logo';
+import { Link } from 'react-router-dom';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -19,6 +18,11 @@ const HeaderContainer = styled.div`
   height: 80px;
   @media (min-width: 768px) {
   }
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
 `;
 
 const Header = () => {
@@ -38,7 +42,9 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-      <Logo />
+      <StyledLink to='/'>
+        <Logo />
+      </StyledLink>
       <SearchContainer handleSubmit={handleSubmit} />
     </HeaderContainer>
   );

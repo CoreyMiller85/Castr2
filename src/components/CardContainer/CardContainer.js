@@ -51,7 +51,7 @@ const CardContainer = () => {
     axios
       .get(`http://localhost:3002/api/cards/singlecard/${id}`)
       .then((response) => dispatch(setSingleCardData(response.data)));
-    navigate(`/singleCard`);
+    navigate('/singleCard');
   };
 
   const compareColors = (filters, cardColors) => {
