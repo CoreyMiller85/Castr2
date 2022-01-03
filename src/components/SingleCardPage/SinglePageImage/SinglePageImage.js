@@ -14,10 +14,14 @@ const Image = styled.img`
 `;
 
 const SinglePageImage = ({ imgSrc, alt }) => {
+  let component = imgSrc.png ? (
+    <Image src={imgSrc.png} alt={`card ${alt}`} />
+  ) : (
+    <p>Loading...</p>
+  );
+
   return (
-    <ImageContainer className='single-page-image'>
-      <Image src={imgSrc.png} alt={`card ${alt}`} />
-    </ImageContainer>
+    <ImageContainer className='single-page-image'>{component}</ImageContainer>
   );
 };
 
