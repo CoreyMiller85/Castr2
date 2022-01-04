@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router';
 
 const StyledCardContainer = styled.div`
   background: linear-gradient(to bottom, #333, #555);
-  padding: 1rem 0rem;
+  padding: 1rem 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -81,7 +81,7 @@ const CardContainer = () => {
         return (
           <Card
             key={card.id}
-            imageSrc={card.card_faces[0].image_uris.normal}
+            imageSrc={card.card_faces[0].image_uris}
             data={card}
             getCardById={getCardById}
           />
@@ -90,7 +90,7 @@ const CardContainer = () => {
         return (
           <Card
             key={card.id}
-            imageSrc={card.image_uris.normal}
+            imageSrc={card.image_uris}
             data={card}
             getCardById={getCardById}
           />
@@ -108,7 +108,7 @@ const CardContainer = () => {
         <Card
           key={card.id}
           getCardById={getCardById}
-          imageSrc={card.card_faces[0].image_uris.normal}
+          imageSrc={card.card_faces[0].image_uris}
         />
       );
     } else {
@@ -116,7 +116,7 @@ const CardContainer = () => {
         <Card
           key={card.id}
           getCardById={getCardById}
-          imageSrc={card.image_uris.normal}
+          imageSrc={card.image_uris}
         />
       );
     }

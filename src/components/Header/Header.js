@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Logo from '../Logo/Logo';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import MenuButton from '../Menu/MenuButton/MenuButton';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -28,6 +30,7 @@ const StyledLink = styled(Link)`
 const Header = () => {
   const dispatch = useDispatch();
   const searchValue = useSelector(selectSearchValue);
+
   const fetchCards = async (query) => {
     let results = await axios.get(
       `http://localhost:3002/api/cards/test?name=${query}`
@@ -37,6 +40,7 @@ const Header = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     fetchCards(searchValue);
   };
 
@@ -46,6 +50,7 @@ const Header = () => {
         <Logo />
       </StyledLink>
       <SearchContainer handleSubmit={handleSubmit} />
+      <MenuButton />
     </HeaderContainer>
   );
 };
