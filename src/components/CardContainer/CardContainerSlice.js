@@ -6,6 +6,7 @@ export const cardsSlice = createSlice({
     value: [],
     filteredCards: [],
     singleCardData: {},
+    loading: false,
   },
   reducers: {
     setCardData: (state, action) => {

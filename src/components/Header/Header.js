@@ -33,15 +33,14 @@ const Header = () => {
 
   const fetchCards = async (query) => {
     let results = await axios.get(
-      `http://localhost:3002/api/cards/test?name=${query}`
+      `http://localhost:3002/api/cards/test?${query}`
     );
     dispatch(setCardData(results.data.docs));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    fetchCards(searchValue);
+    fetchCards(`name=${searchValue}`);
   };
 
   return (

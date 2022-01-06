@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setCardData,
@@ -28,23 +28,26 @@ const StyledCardContainer = styled.div`
   }
 `;
 
-const CardContainer = () => {
+const CardContainer = ({ skip }) => {
   const cards = useSelector(selectCards);
   const colorFilter = useSelector(selectColorFilters);
   const filteredCards = useSelector(selectFilteredCards);
   const singleCardData = useSelector(selectSingleCardData);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchCards();
+    fetchCards('legalities=standard');
   }, []); // eslint-disable-line
 
-  const fetchCards = async () => {
+  const fetchCards = async (queryString) => {
+    setLoading(true);
     let results = await axios.get(
-      `http://localhost:3002/api/cards/test?legalities=${'standard'}`
+      `http://localhost:3002/api/cards/test?${queryString}`
     );
     dispatch(setCardData(results.data.docs));
+    setLoading(false);
   };
 
   const getCardById = async (id) => {
@@ -73,7 +76,7 @@ const CardContainer = () => {
   };
 
   let cardsList;
-
+  // Check to See if cards is populated, if it is, check if card is doublesided, if true, display front of card.
   if (cards.length > 0) {
     cardsList = cards.map((card) => {
       if (card.card_faces.length > 0) {
@@ -97,10 +100,9 @@ const CardContainer = () => {
         );
       }
     });
-  } else {
-    cardsList = 'Loading...';
   }
 
+  // If filters are active, filter current cards
   const filteredCardsList = filteredCards.map((card) => {
     if (card.card_faces.length > 0) {
       // SHOWS FRONT OF CARD IF DOUBLE SIDED
@@ -124,6 +126,7 @@ const CardContainer = () => {
 
   return (
     <StyledCardContainer>
+      {loading && <h1>Loading...</h1>}
       {filteredCards.length > 0 ? filteredCardsList : cardsList}
     </StyledCardContainer>
   );

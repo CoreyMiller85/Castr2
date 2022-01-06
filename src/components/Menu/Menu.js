@@ -1,31 +1,146 @@
-import React from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setColorFilters,
+  selectColorFilters,
+  selectRarityFilters,
+  setRarityFilters,
+  selectSetFilters,
+  setSetFilters,
+} from '../FilterContainer/FilterContainerSlice';
+import {
+  setSearchValue,
+  selectSearchValue,
+} from '../SearchInput/searchInputSlice';
+
+const StyledMenu = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+`;
 
 const Menu = () => {
+  const name = useSelector(selectSearchValue);
+  const rarity = useSelector(selectRarityFilters);
+  const set = useSelector(selectSetFilters);
+  const colors = useSelector(selectColorFilters);
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const filters = { name, colors, rarity, set };
+    axios.post('http://localhost:3002/api/cards/posttest/', filters);
+  };
+
+  const handleColorFilterChange = (e) => {
+    const color = e.target.dataset.color;
+    handleColorFilter(color);
+  };
+
+  const handleColorFilter = (color) => {
+    if (colors.includes(color)) {
+      const newArray = colors.filter((c) => c !== color);
+      dispatch(setColorFilters(newArray));
+    } else {
+      dispatch(setColorFilters([...colors, color]));
+    }
+  };
+
+  const handleRarityChange = (e) => {
+    const rarityFilter = e.target.id;
+    if (rarity.includes(rarityFilter)) {
+      const newArray = rarity.filter((r) => r !== rarityFilter);
+      dispatch(setRarityFilters(newArray));
+    } else {
+      dispatch(setRarityFilters([...rarity, rarityFilter]));
+    }
+  };
   return (
-    <div>
-      <form>
+    <StyledMenu>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor='name'>Name: </label>
+        <input
+          type='text'
+          name='name'
+          id='name'
+          value={name}
+          onChange={(e) => dispatch(setSearchValue(e.target.value))}
+        />
         <h2>Filter By Color:</h2>
-        <input type='checkbox' name='white-checkbox' id='color-W' />
+        <input
+          type='checkbox'
+          name='white-checkbox'
+          id='color-W'
+          data-color='W'
+          onChange={(e) => handleColorFilterChange(e)}
+        />
         <label htmlFor='white-checkbox'>White</label>
-        <input type='checkbox' name='blue-checkbox' id='color-U' />
+        <input
+          type='checkbox'
+          name='blue-checkbox'
+          id='color-U'
+          data-color='U'
+          onChange={(e) => handleColorFilterChange(e)}
+        />
         <label htmlFor='blue-checkbox'>Blue</label>
-        <input type='checkbox' name='black-checkbox' id='color-B' />
+        <input
+          type='checkbox'
+          name='black-checkbox'
+          id='color-B'
+          data-color='B'
+          onChange={(e) => handleColorFilterChange(e)}
+        />
         <label htmlFor='black-checkbox'>Black</label>
-        <input type='checkbox' name='red-checkbox' id='color-R' />
+        <input
+          type='checkbox'
+          name='red-checkbox'
+          id='color-R'
+          data-color='R'
+          onChange={(e) => handleColorFilterChange(e)}
+        />
         <label htmlFor='red-checkbox'>Red</label>
-        <input type='checkbox' name='green-checkbox' id='color-G' />
+        <input
+          type='checkbox'
+          name='green-checkbox'
+          id='color-G'
+          data-color='G'
+          onChange={(e) => handleColorFilterChange(e)}
+        />
         <label htmlFor='green-checkbox'>Green</label>
         <h2>Filter By Rarity:</h2>
-        <input type='checkbox' name='common-checkbox' id='common' />
+        <input
+          type='checkbox'
+          name='common-checkbox'
+          id='common'
+          onChange={(e) => handleRarityChange(e)}
+        />
         <label htmlFor='common-checkbox'>Common</label>
-        <input type='checkbox' name='uncommon-checkbox' id='uncommon' />
+        <input
+          type='checkbox'
+          name='uncommon-checkbox'
+          id='uncommon'
+          onChange={(e) => handleRarityChange(e)}
+        />
         <label htmlFor='uncommon-checkbox'>Uncommon</label>
-        <input type='checkbox' name='rare-checkbox' id='rare' />
+        <input
+          type='checkbox'
+          name='rare-checkbox'
+          id='rare'
+          onChange={(e) => handleRarityChange(e)}
+        />
         <label htmlFor='rare-checkbox'>Rare</label>
-        <input type='checkbox' name='mythic-checkbox' id='mythic' />
+        <input
+          type='checkbox'
+          name='mythic-checkbox'
+          id='mythic'
+          onChange={(e) => handleRarityChange(e)}
+        />
         <label htmlFor='mythic-checkbox'>Mythic</label>
         <h2>Filter By Set:</h2>
-        <select name='set-select' id=''>
+        <select
+          name='set-select'
+          onChange={(e) => dispatch(setSetFilters(e.target.value))}
+        >
           <option value='LEA'>Limited Edition Alpha</option>
           <option value='LEB'>Limited Edition Beta</option>
           <option value='2ED'>Unlimited Edition</option>
@@ -136,10 +251,13 @@ const Menu = () => {
           <option value='STX'>Strixhaven: School of Mages</option>
           <option value='AFR'>Adventures in the Forgotten Realms</option>
           <option value='MID'>Innistrad: Midnight Hunt</option>
-          <option value='VOW'>Innistrad: Crimson Vow</option>
+          <option value='VOW' selected>
+            Innistrad: Crimson Vow
+          </option>
         </select>
+        <button>Filter</button>
       </form>
-    </div>
+    </StyledMenu>
   );
 };
 
