@@ -6,6 +6,7 @@ export const colorFiltersSlice = createSlice({
     colorFilter: [],
     rarityFilter: [],
     setFilter: '',
+    filterMenuOpen: false,
   },
   reducers: {
     setColorFilters: (state, action) => {
@@ -16,6 +17,9 @@ export const colorFiltersSlice = createSlice({
     },
     setSetFilters: (state, action) => {
       state.setFilter = action.payload;
+    },
+    setFilterMenuOpen: (state, action) => {
+      state.filterMenuOpen = action.payload;
     },
   },
 });
@@ -35,12 +39,15 @@ export const colorFiltersSlice = createSlice({
 export const selectColorFilters = (state) => state.colorFilters.colorFilter;
 export const selectRarityFilters = (state) => state.colorFilters.rarityFilter;
 export const selectSetFilters = (state) => state.colorFilters.setFilter;
+export const selectFilterMenuOpen = (state) =>
+  state.colorFilters.filterMenuOpen;
 
 export const {
   setColorFilters,
   filterCardsByColor,
   setRarityFilters,
   setSetFilters,
+  setFilterMenuOpen,
 } = colorFiltersSlice.actions;
 
 export default colorFiltersSlice.reducer;

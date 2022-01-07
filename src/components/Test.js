@@ -1,16 +1,23 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
+import { SlideDown } from 'react-slidedown';
+import 'react-slidedown/lib/slidedown.css';
 
 const Test = () => {
   return (
-    <>
-      <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Modal body content</Modal.Body>
-      </Modal>
-    </>
+    <SlideDown className={'my-dropdown-slidedown'}>
+      <div>
+        <ul>
+          <li>List Item</li>
+          <li>List Item</li>
+          <li>List Item</li>
+          <li>List Item</li>
+          <li>List Item</li>
+          <li>List Item</li>
+          <li>List Item</li>
+        </ul>
+      </div>
+    </SlideDown>
   );
 };
 

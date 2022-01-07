@@ -37,7 +37,8 @@ const SingleCardPageDetails = ({
   return (
     <StyledContainer>
       <StyledH2>{name}</StyledH2>
-      <StyledP>Mana Cost: {mana_cost}</StyledP>
+      <StyledP>Mana Cost: {mana_cost}</StyledP>{' '}
+      {/* /({.?})/ regex code to replace with Mana Symbol  */}
       <StyledP>{oracle_text}</StyledP>
       {power && toughness ? (
         <StyledP>

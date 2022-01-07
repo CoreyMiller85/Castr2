@@ -13,10 +13,21 @@ import {
   setSearchValue,
   selectSearchValue,
 } from '../SearchInput/searchInputSlice';
-
+import { setCardData } from '../CardContainer/CardContainerSlice';
 const StyledMenu = styled.div`
   display: flex;
-  flex-flow: row nowrap;
+  flex-direction: row;
+`;
+
+const StyledForm = styled.form``;
+const StyledInput = styled.input`
+  display: inline-block;
+`;
+const StyledLabel = styled.label`
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #111;
 `;
 
 const Menu = () => {
@@ -26,10 +37,20 @@ const Menu = () => {
   const colors = useSelector(selectColorFilters);
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const filters = { name, colors, rarity, set };
-    axios.post('http://localhost:3002/api/cards/posttest/', filters);
+    let urlData = new URLSearchParams({});
+    for (const [key, value] of Object.entries(filters)) {
+      if (value && value.length > 0) {
+        urlData.append(key, value);
+      }
+    }
+    const results = await axios.get(
+      `http://localhost:3002/api/cards/test?${urlData}`
+    );
+    dispatch(setCardData(results.data.docs));
   };
 
   const handleColorFilterChange = (e) => {
@@ -57,9 +78,9 @@ const Menu = () => {
   };
   return (
     <StyledMenu>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='name'>Name: </label>
-        <input
+      <StyledForm onSubmit={handleSubmit}>
+        <StyledLabel htmlFor='name'>Name: </StyledLabel>
+        <StyledInput
           type='text'
           name='name'
           id='name'
@@ -74,7 +95,8 @@ const Menu = () => {
           data-color='W'
           onChange={(e) => handleColorFilterChange(e)}
         />
-        <label htmlFor='white-checkbox'>White</label>
+
+        <StyledLabel htmlFor='white-checkbox'>White</StyledLabel>
         <input
           type='checkbox'
           name='blue-checkbox'
@@ -82,7 +104,7 @@ const Menu = () => {
           data-color='U'
           onChange={(e) => handleColorFilterChange(e)}
         />
-        <label htmlFor='blue-checkbox'>Blue</label>
+        <StyledLabel htmlFor='blue-checkbox'>Blue</StyledLabel>
         <input
           type='checkbox'
           name='black-checkbox'
@@ -90,7 +112,7 @@ const Menu = () => {
           data-color='B'
           onChange={(e) => handleColorFilterChange(e)}
         />
-        <label htmlFor='black-checkbox'>Black</label>
+        <StyledLabel htmlFor='black-checkbox'>Black</StyledLabel>
         <input
           type='checkbox'
           name='red-checkbox'
@@ -98,7 +120,7 @@ const Menu = () => {
           data-color='R'
           onChange={(e) => handleColorFilterChange(e)}
         />
-        <label htmlFor='red-checkbox'>Red</label>
+        <StyledLabel htmlFor='red-checkbox'>Red</StyledLabel>
         <input
           type='checkbox'
           name='green-checkbox'
@@ -106,7 +128,7 @@ const Menu = () => {
           data-color='G'
           onChange={(e) => handleColorFilterChange(e)}
         />
-        <label htmlFor='green-checkbox'>Green</label>
+        <StyledLabel htmlFor='green-checkbox'>Green</StyledLabel>
         <h2>Filter By Rarity:</h2>
         <input
           type='checkbox'
@@ -114,33 +136,35 @@ const Menu = () => {
           id='common'
           onChange={(e) => handleRarityChange(e)}
         />
-        <label htmlFor='common-checkbox'>Common</label>
+        <StyledLabel htmlFor='common-checkbox'>Common</StyledLabel>
         <input
           type='checkbox'
           name='uncommon-checkbox'
           id='uncommon'
           onChange={(e) => handleRarityChange(e)}
         />
-        <label htmlFor='uncommon-checkbox'>Uncommon</label>
+        <StyledLabel htmlFor='uncommon-checkbox'>Uncommon</StyledLabel>
         <input
           type='checkbox'
           name='rare-checkbox'
           id='rare'
           onChange={(e) => handleRarityChange(e)}
         />
-        <label htmlFor='rare-checkbox'>Rare</label>
+        <StyledLabel htmlFor='rare-checkbox'>Rare</StyledLabel>
         <input
           type='checkbox'
           name='mythic-checkbox'
           id='mythic'
           onChange={(e) => handleRarityChange(e)}
         />
-        <label htmlFor='mythic-checkbox'>Mythic</label>
+        <StyledLabel htmlFor='mythic-checkbox'>Mythic</StyledLabel>
         <h2>Filter By Set:</h2>
+        <StyledLabel htmlFor='set'>Set: </StyledLabel>
         <select
-          name='set-select'
+          name='set'
           onChange={(e) => dispatch(setSetFilters(e.target.value))}
         >
+          <option value=''>None</option>
           <option value='LEA'>Limited Edition Alpha</option>
           <option value='LEB'>Limited Edition Beta</option>
           <option value='2ED'>Unlimited Edition</option>
@@ -251,12 +275,10 @@ const Menu = () => {
           <option value='STX'>Strixhaven: School of Mages</option>
           <option value='AFR'>Adventures in the Forgotten Realms</option>
           <option value='MID'>Innistrad: Midnight Hunt</option>
-          <option value='VOW' selected>
-            Innistrad: Crimson Vow
-          </option>
+          <option value='VOW'>Innistrad: Crimson Vow</option>
         </select>
         <button>Filter</button>
-      </form>
+      </StyledForm>
     </StyledMenu>
   );
 };
