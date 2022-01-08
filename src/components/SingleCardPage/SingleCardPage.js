@@ -25,6 +25,7 @@ const SingleCardPage = () => {
         imgSrc={singleCardData.image_uris}
         alt={singleCardData.name}
       />
+
       <SingleCardPageDetails
         mana_cost={singleCardData.mana_cost}
         name={singleCardData.name}
