@@ -32,6 +32,7 @@ const SingleCardPage = () => {
         oracle_text={singleCardData.oracle_text}
         power={singleCardData.power}
         toughness={singleCardData.toughness}
+        flavor_text={singleCardData.flavor_text}
       />
     </StyledSingleCardPage>
   );

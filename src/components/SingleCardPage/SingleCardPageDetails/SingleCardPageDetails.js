@@ -47,6 +47,7 @@ const SingleCardPageDetails = ({
   oracle_text,
   power,
   toughness,
+  flavor_text,
 }) => {
   function ParsedText(text) {
     const oldText = text.split('');
@@ -68,14 +69,15 @@ const SingleCardPageDetails = ({
 
   const regex = new RegExp('{.?.?}', 'gi');
 
-  const newOracleText = oracle_text.replace(regex, (elem) => {
-    const array = elem.split('');
-    const filteredArray = array.filter((e) => e !== '{' && e !== '}');
-    const completed = filteredArray.join('');
-    return `<img class='mana-symbol' src='/img/cost-${completed}.png' />`;
-  });
-  const blah = ReactHtmlParser(newOracleText);
-  console.log(newOracleText);
+  const newOracleText = oracle_text
+    ? oracle_text.replace(regex, (elem) => {
+        const array = elem.split('');
+        const filteredArray = array.filter((e) => e !== '{' && e !== '}');
+        const completed = filteredArray.join('');
+        return `<img class='mana-symbol' style='width: 16px; height: 16px; display: inline-block; ' src='/img/cost-${completed}.png' />`;
+      })
+    : null;
+  const parsedOracleText = ReactHtmlParser(newOracleText);
   // const fileName = `cost-${completed.toLowerCase()}.png`;
   //   const url = `/img/${fileName}`;
   return (
@@ -83,7 +85,8 @@ const SingleCardPageDetails = ({
       <StyledH2>{name}</StyledH2>
       <StyledMana>{thing}</StyledMana>{' '}
       {/* /({.?})/ regex code to replace with Mana Symbol  */}
-      <StyledP>{blah}</StyledP>
+      <StyledP>{parsedOracleText}</StyledP>
+      <StyledP>{flavor_text ? flavor_text : null}</StyledP>
       {power && toughness ? (
         <StyledP>
           {power} / {toughness}
