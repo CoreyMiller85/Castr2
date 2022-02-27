@@ -49,7 +49,7 @@ const CardContainer = ({ skip }) => {
   const fetchCards = async (queryString) => {
     setLoading(true);
     let results = await axios.get(
-      `http://localhost:3002/api/cards/test?${queryString}`
+      `https://cjm-castr-api.herokuapp.com/api/cards/?${queryString}`
     );
     setQueryInfo(results.data);
     dispatch(setCardData(results.data.docs));
@@ -64,7 +64,7 @@ const CardContainer = ({ skip }) => {
 
   const getCardById = async (id) => {
     axios
-      .get(`http://localhost:3002/api/cards/singlecard/${id}`)
+      .get(`https://cjm-castr-api.herokuapp.com/api/cards/singlecard/${id}`)
       .then((response) => dispatch(setSingleCardData(response.data)));
     navigate('/singleCard');
   };
