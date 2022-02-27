@@ -10,7 +10,13 @@ export const cardsSlice = createSlice({
   },
   reducers: {
     setCardData: (state, action) => {
-      state.value = action.payload;
+      const test = [...state.value, ...action.payload];
+      state.value = test;
+    },
+    setLoadMore: (state, action) => {
+      const test = [...state.value, ...action.payload];
+      console.log('hello');
+      state.value = test;
     },
     setFilteredCards: (state, action) => {
       state.filteredCards = action.payload;
@@ -37,7 +43,7 @@ export const selectCards = (state) => state.cards.value;
 export const selectFilteredCards = (state) => state.cards.filteredCards;
 export const selectSingleCardData = (state) => state.cards.singleCardData;
 
-export const { setCardData, setFilteredCards, setSingleCardData } =
+export const { setCardData, setFilteredCards, setSingleCardData, setLoadMore } =
   cardsSlice.actions;
 
 export default cardsSlice.reducer;

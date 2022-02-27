@@ -12,7 +12,7 @@ const StyledContainer = styled.div`
   border: 1px solid black;
   @media (min-width: 768px) {
     margin: 0;
-    align-self: flex-end;
+    align-self: flex-start;
   }
 `;
 

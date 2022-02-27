@@ -7,6 +7,7 @@ import {
   setFilteredCards,
   selectSingleCardData,
   setSingleCardData,
+  setLoadMore,
 } from './CardContainerSlice';
 import { selectColorFilters } from '../FilterContainer/FilterContainerSlice';
 import Card from '../Card/Card';
@@ -36,9 +37,13 @@ const CardContainer = ({ skip }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [queryString, setQueryString] = useState('legalities=standard');
+  const [queryInfo, setQueryInfo] = useState({});
 
   useEffect(() => {
-    fetchCards('legalities=standard');
+    fetchCards(`${queryString}&page=${page} `);
+    console.log(queryInfo);
   }, []); // eslint-disable-line
 
   const fetchCards = async (queryString) => {
@@ -46,8 +51,15 @@ const CardContainer = ({ skip }) => {
     let results = await axios.get(
       `http://localhost:3002/api/cards/test?${queryString}`
     );
+    setQueryInfo(results.data);
     dispatch(setCardData(results.data.docs));
+
     setLoading(false);
+  };
+
+  const loadMore = async () => {
+    setPage(page + 1);
+    fetchCards(`${queryString}&page=${page}`);
   };
 
   const getCardById = async (id) => {
@@ -128,6 +140,7 @@ const CardContainer = ({ skip }) => {
     <StyledCardContainer>
       {loading && <h1>Loading...</h1>}
       {filteredCards.length > 0 ? filteredCardsList : cardsList}
+      {queryInfo.hasNext && <button onClick={loadMore}>Load More</button>}
     </StyledCardContainer>
   );
 };

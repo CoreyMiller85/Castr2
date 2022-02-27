@@ -14,9 +14,13 @@ import {
   selectSearchValue,
 } from '../SearchInput/searchInputSlice';
 import { setCardData } from '../CardContainer/CardContainerSlice';
+
 const StyledMenu = styled.div`
   display: flex;
+  margin: 2rem 0;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledForm = styled.form``;
